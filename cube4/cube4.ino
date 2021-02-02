@@ -16,10 +16,10 @@ void setup() {
 
 void loop() {
   c++;
-    ene.led_center();
-    delay(200);
-    ene.led_xax(c%3);
-    ene.led_yax(c%3);
-    ene.led_zax(c%3);
-  //ene.led_test(c % 3);
+//    ene.led_center();
+//    delay(200);
+//    ene.led_xax(c%3);
+//    ene.led_yax(c%3);
+//    ene.led_zax(c%3);
+  ene.led_test(c % 3);
 }

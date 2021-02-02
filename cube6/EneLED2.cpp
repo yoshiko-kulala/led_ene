@@ -34,7 +34,7 @@ void EneLED::led_test() {
       led_gre[j][j][(j - i + 5) % 5] = 1;
       led_blu[j][abs(j - 4)][(j - i + 5) % 5] = 1;
     }
-    delay(500);
+    delay(300);
   }
 }
 
@@ -192,10 +192,10 @@ void EneLED::output() {
           digitalWrite(6,  HIGH);
           break;
         case 2:
-          SPI.transfer(0x01);
+          SPI.transfer(0x00);
           digitalWrite(6,  LOW);
           digitalWrite(6,  HIGH);
-          SPI.transfer(0x09);
+          SPI.transfer(0x01);
           digitalWrite(6,  LOW);
           digitalWrite(6,  HIGH);
           break;
@@ -220,7 +220,7 @@ void EneLED::output() {
           digitalWrite(6,  HIGH);
           break;
         case 2:
-          SPI.transfer(0x02);
+          SPI.transfer(0x00);
           digitalWrite(6,  LOW);
           digitalWrite(6,  HIGH);
           SPI.transfer(0x02);
@@ -248,10 +248,10 @@ void EneLED::output() {
           digitalWrite(6,  HIGH);
           break;
         case 2:
-          SPI.transfer(0x04);
+          SPI.transfer(0x00);
           digitalWrite(6,  LOW);
           digitalWrite(6,  HIGH);
-          SPI.transfer(0x24);
+          SPI.transfer(0x20);
           digitalWrite(6,  LOW);
           digitalWrite(6,  HIGH);
           break;
@@ -276,7 +276,7 @@ void EneLED::output() {
           digitalWrite(6,  HIGH);
           break;
         case 2:
-          SPI.transfer(0x50);
+          SPI.transfer(0x00);
           digitalWrite(6,  LOW);
           digitalWrite(6,  HIGH);
           SPI.transfer(0x40);
@@ -304,7 +304,7 @@ void EneLED::output() {
           digitalWrite(6,  HIGH);
           break;
         case 2:
-          SPI.transfer(0x28);
+          SPI.transfer(0x00);
           digitalWrite(6,  LOW);
           digitalWrite(6,  HIGH);
           SPI.transfer(0x80);
