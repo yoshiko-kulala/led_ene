@@ -38,6 +38,16 @@ void EneLED::led_test() {
   }
 }
 
+void EneLED::led_test2(int color) {//ガチのテスト用
+  led_clear();
+  for (int i = 0; i < 5; i++) {
+    for (int j = 0; j < 5; j++) {
+      led_red[i][3][j] = 1;
+    }
+  }
+  delay(300);
+}
+
 void EneLED::led_xaxis(int color) {
   for (int i = 0; i < 5; i++) {
     led_clear();
@@ -99,7 +109,7 @@ void EneLED::led_zaxis(int color) {
 }
 
 void EneLED::led_xaxis_rev(int color) {
-  for (int i = 4; i > 0; i--) {
+  for (int i = 4; i > -1; i--) {
     led_clear();
     for (int j = 0; j < 5; j++) {
       for (int k = 0; k < 5; k++) {
@@ -119,7 +129,7 @@ void EneLED::led_xaxis_rev(int color) {
 }
 
 void EneLED::led_yaxis_rev(int color) {
-  for (int i = 4; i > 0; i--) {
+  for (int i = 4; i > -1; i--) {
     led_clear();
     for (int j = 0; j < 5; j++) {
       for (int k = 0; k < 5; k++) {
@@ -139,7 +149,7 @@ void EneLED::led_yaxis_rev(int color) {
 }
 
 void EneLED::led_zaxis_rev(int color) {
-  for (int i = 4; i > 0; i--) {
+  for (int i = 4; i > -1; i--) {
     led_clear();
     for (int j = 0; j < 5; j++) {
       for (int k = 0; k < 5; k++) {
@@ -173,6 +183,66 @@ void EneLED::led_full(int color) {
           led_blu[i][j][k] = 1;
         }
       }
+    }
+  }
+}
+
+void EneLED::led_rotate(int color) {//くるくる回る(予定)の奴
+  for (int k = 4; k > -1; k--) {
+    int i = 0, j = 0;
+    for (i = 0; i < 4; i++) {
+      led_clear();
+      if (color % 2) {
+        led_red[i][j][k] = 1;
+      }
+      if ((color / 2) % 2) {
+        led_gre[i][j][k] = 1;
+      }
+      if ((color / 4) % 2) {
+        led_blu[i][j][k] = 1;
+      }
+      delay(50);
+    }
+    i = 4;
+    for (j = 0; j < 4; j++) {
+      led_clear();
+      if (color % 2) {
+        led_red[i][j][k] = 1;
+      }
+      if ((color / 2) % 2) {
+        led_gre[i][j][k] = 1;
+      }
+      if ((color / 4) % 2) {
+        led_blu[i][j][k] = 1;
+      }
+      delay(50);
+    }
+    j = 4;
+    for (i = 4; i > 0; i--) {
+      led_clear();
+      if (color % 2) {
+        led_red[i][j][k] = 1;
+      }
+      if ((color / 2) % 2) {
+        led_gre[i][j][k] = 1;
+      }
+      if ((color / 4) % 2) {
+        led_blu[i][j][k] = 1;
+      }
+      delay(50);
+    }
+    for (j = 4; j > 0; j--) {
+      led_clear();
+      if (color % 2) {
+        led_red[i][j][k] = 1;
+      }
+      if ((color / 2) % 2) {
+        led_gre[i][j][k] = 1;
+      }
+      if ((color / 4) % 2) {
+        led_blu[i][j][k] = 1;
+      }
+      delay(50);
     }
   }
 }

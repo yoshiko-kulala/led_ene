@@ -16,6 +16,8 @@ void setup() {
 
 void loop() {
   c++;
+  //ene.led_test2(0b001);
+  ene.led_rotate(c);
   if (c > 7)c = 1;
   ene.led_full(c);
   delay(1000);
