@@ -159,6 +159,7 @@ void EneLED::led_zaxis_rev(int color) {
 }
 
 void EneLED::led_full(int color) {
+  led_clear();
   for (int i = 0; i < 5; i++) {
     for (int j = 0; j < 5; j++) {
       for (int k = 0; k < 5; k++) {
