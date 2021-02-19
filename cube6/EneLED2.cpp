@@ -6,6 +6,7 @@ EneLED::EneLED(void) {
 
 void EneLED::init(int board) {
   pattern_count = 0;
+  color = 0;
   board_no = board;
   pinMode(13, OUTPUT);
   pinMode(6,  OUTPUT);
@@ -26,6 +27,60 @@ void EneLED::led_clear() {
   }
 }
 
+void EneLED::led_default() {
+  led_xaxis();
+  led_xaxis_rev();
+  led_xaxis();
+  led_xaxis_rev();
+  led_yaxis();
+  led_yaxis_rev();
+  led_yaxis();
+  led_yaxis_rev();
+  led_zaxis();
+  led_zaxis_rev();
+  led_zaxis();
+  led_zaxis_rev();
+}
+void EneLED::led_suwa() {
+  led_clear();
+  for (int i = 1; i < 4; i++) {
+    for (int j = 1; j < 4; j++) {
+      if (color % 2) {
+        led_red[i][j][3] = 1;
+      }
+      if ((color / 2) % 2) {
+        led_gre[i][j][3] = 1;
+      }
+      if ((color / 4) % 2) {
+        led_blu[i][j][3] = 1;
+      }
+      led_red[2][2][3] = 0;
+      led_blu[2][2][3] = 0;
+      led_gre[2][2][3] = 0;
+    }
+  }
+}
+
+void EneLED::led_suwa2() {
+  led_clear();
+  for (int i = 1; i < 4; i++) {
+    for (int j = 1; j < 4; j++) {
+      if (color % 2) {
+        led_red[i][j][3] = 1;
+      }
+      if ((color / 2) % 2) {
+        led_gre[i][j][3] = 1;
+      }
+      if ((color / 4) % 2) {
+        led_blu[i][j][3] = 1;
+      }
+      led_red[2][2][3] = 0;
+      led_blu[2][2][3] = 0;
+      led_gre[2][2][3] = 0;
+    }
+  }
+}
+
 void EneLED::led_test() {
   for (int i = 0; i < 5; i++) {
     led_clear();
@@ -34,21 +89,11 @@ void EneLED::led_test() {
       led_gre[j][j][(j - i + 5) % 5] = 1;
       led_blu[j][abs(j - 4)][(j - i + 5) % 5] = 1;
     }
-    delay(300);
+    delay(200);
   }
 }
 
-void EneLED::led_test2(int color) {//ガチのテスト用
-  led_clear();
-  for (int i = 0; i < 5; i++) {
-    for (int j = 0; j < 5; j++) {
-      led_red[i][3][j] = 1;
-    }
-  }
-  delay(300);
-}
-
-void EneLED::led_xaxis(int color) {
+void EneLED::led_xaxis() {
   for (int i = 0; i < 5; i++) {
     led_clear();
     for (int j = 0; j < 5; j++) {
@@ -68,7 +113,7 @@ void EneLED::led_xaxis(int color) {
   }
 }
 
-void EneLED::led_yaxis(int color) {
+void EneLED::led_yaxis() {
   for (int i = 0; i < 5; i++) {
     led_clear();
     for (int j = 0; j < 5; j++) {
@@ -88,7 +133,7 @@ void EneLED::led_yaxis(int color) {
   }
 }
 
-void EneLED::led_zaxis(int color) {
+void EneLED::led_zaxis() {
   for (int i = 0; i < 5; i++) {
     led_clear();
     for (int j = 0; j < 5; j++) {
@@ -108,8 +153,8 @@ void EneLED::led_zaxis(int color) {
   }
 }
 
-void EneLED::led_xaxis_rev(int color) {
-  for (int i = 4; i > -1; i--) {
+void EneLED::led_xaxis_rev() {
+  for (int i = 4; i > 0; i--) {
     led_clear();
     for (int j = 0; j < 5; j++) {
       for (int k = 0; k < 5; k++) {
@@ -128,8 +173,8 @@ void EneLED::led_xaxis_rev(int color) {
   }
 }
 
-void EneLED::led_yaxis_rev(int color) {
-  for (int i = 4; i > -1; i--) {
+void EneLED::led_yaxis_rev() {
+  for (int i = 4; i > 0; i--) {
     led_clear();
     for (int j = 0; j < 5; j++) {
       for (int k = 0; k < 5; k++) {
@@ -148,8 +193,8 @@ void EneLED::led_yaxis_rev(int color) {
   }
 }
 
-void EneLED::led_zaxis_rev(int color) {
-  for (int i = 4; i > -1; i--) {
+void EneLED::led_zaxis_rev() {
+  for (int i = 4; i > 0; i--) {
     led_clear();
     for (int j = 0; j < 5; j++) {
       for (int k = 0; k < 5; k++) {
@@ -168,9 +213,9 @@ void EneLED::led_zaxis_rev(int color) {
   }
 }
 
-void EneLED::led_full(int color) {
-  led_clear();
+void EneLED::led_full() {
   for (int i = 0; i < 5; i++) {
+
     for (int j = 0; j < 5; j++) {
       for (int k = 0; k < 5; k++) {
         if (color % 2) {
@@ -187,67 +232,1538 @@ void EneLED::led_full(int color) {
   }
 }
 
-void EneLED::led_rotate(int color) {//くるくる回る(予定)の奴
-  for (int k = 4; k > -1; k--) {
-    int i = 0, j = 0;
-    for (i = 0; i < 4; i++) {
-      led_clear();
+void EneLED::falldown() {
+  int i = random(5);
+  int j = random(5);
+  int i2 = random(5);
+  int j2 = random(5);
+  int i3 = random(5);
+  int j3 = random(5);
+  int i4 = random(5);
+  int j4 = random(5);
+  int i5 = random(5);
+  int j5 = random(5);
+  int i6 = random(5);
+  int j6 = random(5);
+  if (color > 0) {
+    led_red[i][j][4] =  1;
+    led_blu[i][j][4] =  1;
+    led_gre[i][j][4] =  1;
+    led_red[i2][j2][4] =  1;
+    led_blu[i2][j2][4] =  1;
+    led_gre[i2][j2][4] =  1;
+    led_red[i3][j3][4] =  1;
+    led_blu[i3][j3][4] =  1;
+    led_gre[i3][j3][4] =  1;
+    led_red[i4][j4][4] =  1;
+    led_blu[i4][j4][4] =  1;
+    led_gre[i4][j4][4] =  1;
+    led_red[i5][j5][4] =  1;
+    led_blu[i5][j5][4] =  1;
+    led_gre[i5][j5][4] =  1;
+    led_red[i6][j6][4] =  1;
+    led_blu[i6][j6][4] =  1;
+    led_gre[i6][j6][4] =  1;
+    for (int s = 4; s > 0; s--)
+    {
       if (color % 2) {
-        led_red[i][j][k] = 1;
+        led_red[i][j][s - 1] = led_red[i][j][s];
+        led_red[i2][j2][s - 1] = led_red[i2][j2][s];
+        led_red[i3][j3][s - 1] = led_red[i3][j3][s];
+        led_red[i4][j4][s - 1] = led_red[i4][j4][s];
+        led_red[i5][j5][s - 1] = led_red[i5][j5][s];
+        led_red[i6][j6][s - 1] = led_red[i6][j6][s];
+        led_red[i][j][s] = 0;
+        led_red[i2][j2][s] = 0;
+        led_red[i3][j3][s] = 0;
+        led_red[i4][j4][s] = 0;
+        led_red[i5][j5][s] = 0;
+        led_red[i6][j6][s] = 0;
       }
       if ((color / 2) % 2) {
-        led_gre[i][j][k] = 1;
+        led_gre[i][j][s - 1] = led_gre[i][j][s];
+        led_gre[i2][j2][s - 1] = led_gre[i2][j2][s];
+        led_gre[i3][j3][s - 1] = led_gre[i3][j3][s];
+        led_gre[i4][j4][s - 1] = led_gre[i4][j4][s];
+        led_gre[i5][j5][s - 1] = led_gre[i5][j5][s];
+        led_gre[i6][j6][s - 1] = led_gre[i6][j6][s];
+        led_gre[i][j][s] = 0;
+        led_gre[i2][j2][s] = 0;
+        led_gre[i3][j3][s] = 0;
+        led_gre[i4][j4][s] = 0;
+        led_gre[i5][j5][s] = 0;
+        led_gre[i6][j6][s] = 0;
       }
       if ((color / 4) % 2) {
-        led_blu[i][j][k] = 1;
+        led_blu[i][j][s - 1] = led_blu[i][j][s];
+        led_blu[i2][j2][s - 1] = led_blu[i2][j2][s];
+        led_blu[i3][j3][s - 1] = led_blu[i3][j3][s];
+        led_blu[i4][j4][s - 1] = led_blu[i4][j4][s];
+        led_blu[i5][j5][s - 1] = led_blu[i5][j5][s];
+        led_blu[i6][j6][s - 1] = led_blu[i6][j6][s];
+        led_blu[i][j][s] = 0;
+        led_blu[i2][j2][s] = 0;
+        led_blu[i3][j3][s] = 0;
+        led_blu[i4][j4][s] = 0;
+        led_blu[i5][j5][s] = 0;
+        led_blu[i6][j6][s] = 0;
       }
-      delay(50);
+      delay(100);
     }
-    i = 4;
-    for (j = 0; j < 4; j++) {
-      led_clear();
-      if (color % 2) {
-        led_red[i][j][k] = 1;
-      }
-      if ((color / 2) % 2) {
-        led_gre[i][j][k] = 1;
-      }
-      if ((color / 4) % 2) {
-        led_blu[i][j][k] = 1;
-      }
-      delay(50);
+    //delay(100);
+  }
+  led_clear();
+}
+
+void EneLED::text(int w)
+{
+  for (int i = 4; i >= 0; i--) {
+    led_clear();
+    switch (w) {
+      case 9:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1; led_red[i][3][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1; led_gre[i][3][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 8:
+        if (color % 2) {
+          led_red[i][2][4] = 1;
+          led_red[i][2][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][2][2] = 1;
+          led_red[i][2][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][2][4] = 1;
+          led_gre[i][2][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][2][2] = 1;
+          led_gre[i][2][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][2][4] = 1;
+          led_blu[i][2][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][2][2] = 1;
+          led_blu[i][2][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 7:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][1][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][3][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][1][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][3][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][1][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][3][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 6:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][1][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][1][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][1][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 5:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1;
+          led_red[i][1][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1;
+          led_gre[i][1][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1;
+          led_blu[i][1][0] = 1;
+        }
+        break;
+      case 4:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][3][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][3][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][3][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 3:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][3][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1; led_red[i][3][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][3][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1; led_gre[i][3][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][3][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 2:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][1][2] = 1;
+          led_red[i][1][1] = 1;
+          led_red[i][1][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][1][2] = 1;
+          led_gre[i][1][1] = 1;
+          led_gre[i][1][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][1][2] = 1;
+          led_blu[i][1][1] = 1;
+          led_blu[i][1][0] = 1;
+        }
+        break;
+      case 1:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1; led_red[i][3][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1; led_gre[i][3][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 0:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1;
+          led_red[i][1][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1;
+          led_gre[i][1][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1;
+          led_blu[i][1][0] = 1;
+        }
+        break;
     }
-    j = 4;
-    for (i = 4; i > 0; i--) {
-      led_clear();
-      if (color % 2) {
-        led_red[i][j][k] = 1;
-      }
-      if ((color / 2) % 2) {
-        led_gre[i][j][k] = 1;
-      }
-      if ((color / 4) % 2) {
-        led_blu[i][j][k] = 1;
-      }
-      delay(50);
+    delay(100);
+    //delay(100);
+  }
+  //delay(100);
+}
+void EneLED::led_BEt(int w) {
+  for (int i = 4; i >= 0; i--) {
+    led_clear();
+    switch (w) {
+      case 25:
+        if (color % 2) {
+          led_red[i][2][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1; led_red[i][3][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1; led_gre[i][3][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 24:
+        if (color % 2) {
+          led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1; led_red[i][3][1] = 1;
+          led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1; led_gre[i][3][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 23:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][0][3] = 1; led_red[i][4][3] = 1;
+          led_red[i][4][2] = 1;
+          led_red[i][0][1] = 1; led_red[i][4][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][0][3] = 1; led_gre[i][4][3] = 1;
+          led_gre[i][4][2] = 1;
+          led_gre[i][0][1] = 1; led_gre[i][4][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][0][3] = 1; led_blu[i][4][3] = 1;
+          led_blu[i][4][2] = 1;
+          led_blu[i][0][1] = 1; led_blu[i][4][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 22:
+        if (color % 2) {
+          led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1; led_red[i][3][1] = 1;
+          led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1; led_gre[i][3][1] = 1;
+          led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 21:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][3][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][3][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][3][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][3][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][3][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][3][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 20:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][3][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][3][1] = 1;
+          led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][3][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][3][1] = 1;
+          led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][3][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][3][1] = 1;
+          led_blu[i][3][0] = 1;
+        }
+        break;
+      case 19:
+        if (color % 2) {
+          led_red[i][2][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1; led_red[i][2][1] = 1; led_red[i][3][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][2][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1; led_gre[i][2][1] = 1; led_gre[i][3][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][2][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1; led_blu[i][2][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1;
+        }
+        break;
+      case 18:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1; led_red[i][3][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1; led_gre[i][3][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 17:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][2][3] = 1;
+          led_red[i][2][2] = 1;
+          led_red[i][2][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][2][3] = 1;
+          led_gre[i][2][2] = 1;
+          led_gre[i][2][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][2][3] = 1;
+          led_blu[i][2][2] = 1;
+          led_blu[i][2][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 16:
+        if (color % 2) {
+          led_red[i][0][4] = 1; led_red[i][1][4] = 1; led_red[i][2][4] = 1;
+          led_red[i][1][3] = 1;
+          led_red[i][1][2] = 1;
+          led_red[i][1][1] = 1; led_red[i][3][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][0][4] = 1; led_gre[i][1][4] = 1; led_gre[i][2][4] = 1;
+          led_gre[i][1][3] = 1;
+          led_gre[i][1][2] = 1;
+          led_gre[i][1][1] = 1; led_gre[i][3][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][0][4] = 1; led_blu[i][1][4] = 1; led_blu[i][2][4] = 1;
+          led_blu[i][1][3] = 1;
+          led_blu[i][1][2] = 1;
+          led_blu[i][1][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 15:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][2][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][3][2] = 1;
+          led_red[i][2][1] = 1; led_red[i][3][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][2][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][3][2] = 1;
+          led_gre[i][2][1] = 1; led_gre[i][3][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][2][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][3][2] = 1;
+          led_blu[i][2][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 14:
+        if (color % 2) {
+          led_red[i][3][4] = 1;
+          led_red[i][3][3] = 1;
+          led_red[i][3][2] = 1;
+          led_red[i][3][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][3][4] = 1;
+          led_gre[i][3][3] = 1;
+          led_gre[i][3][2] = 1;
+          led_gre[i][3][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][3][4] = 1;
+          led_blu[i][3][3] = 1;
+          led_blu[i][3][2] = 1;
+          led_blu[i][3][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 13:
+        if (color % 2) {
+          led_red[i][0][4] = 1; led_red[i][4][4] = 1;
+          led_red[i][0][3] = 1; led_red[i][1][3] = 1; led_red[i][3][3] = 1; led_red[i][4][3] = 1;
+          led_red[i][0][2] = 1; led_red[i][2][2] = 1; led_red[i][4][2] = 1;
+          led_red[i][0][1] = 1; led_red[i][4][1] = 1;
+          led_red[i][0][0] = 1; led_red[i][4][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][0][4] = 1; led_gre[i][4][4] = 1;
+          led_gre[i][0][3] = 1; led_gre[i][1][3] = 1; led_gre[i][3][3] = 1; led_gre[i][4][3] = 1;
+          led_gre[i][0][2] = 1; led_gre[i][2][2] = 1; led_gre[i][4][2] = 1;
+          led_gre[i][0][1] = 1; led_gre[i][4][1] = 1;
+          led_gre[i][0][0] = 1; led_gre[i][4][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][0][4] = 1; led_blu[i][4][4] = 1;
+          led_blu[i][0][3] = 1; led_blu[i][1][3] = 1; led_blu[i][3][3] = 1; led_blu[i][4][3] = 1;
+          led_blu[i][0][2] = 1; led_blu[i][2][2] = 1; led_blu[i][4][2] = 1;
+          led_blu[i][0][1] = 1; led_blu[i][4][1] = 1;
+          led_blu[i][0][0] = 1; led_blu[i][4][0] = 1;
+        }
+        break;
+      case 12:
+        if (color % 2) {
+          led_red[i][0][4] = 1; led_red[i][4][4] = 1;
+          led_red[i][0][3] = 1; led_red[i][3][3] = 1; led_red[i][4][3] = 1;
+          led_red[i][0][2] = 1; led_red[i][2][2] = 1; led_red[i][4][2] = 1;
+          led_red[i][0][1] = 1; led_red[i][1][1] = 1; led_red[i][3][1] = 1;
+          led_red[i][0][0] = 1; led_red[i][4][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][0][4] = 1; led_gre[i][4][4] = 1;
+          led_gre[i][0][3] = 1; led_gre[i][3][3] = 1; led_gre[i][4][3] = 1;
+          led_gre[i][0][2] = 1; led_gre[i][2][2] = 1; led_gre[i][4][2] = 1;
+          led_gre[i][0][1] = 1; led_gre[i][1][1] = 1; led_gre[i][3][1] = 1;
+          led_gre[i][0][0] = 1; led_gre[i][4][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][0][4] = 1; led_blu[i][4][4] = 1;
+          led_blu[i][0][3] = 1; led_blu[i][3][3] = 1; led_blu[i][4][3] = 1;
+          led_blu[i][0][2] = 1; led_blu[i][2][2] = 1; led_blu[i][4][2] = 1;
+          led_blu[i][0][1] = 1; led_blu[i][1][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][0][0] = 1; led_blu[i][4][0] = 1;
+        }
+        break;
+      case 11:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][0][3] = 1; led_red[i][4][3] = 1;
+          led_red[i][0][3] = 1; led_red[i][4][3] = 1;
+          led_red[i][0][3] = 1; led_red[i][4][3] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][0][3] = 1; led_gre[i][4][3] = 1;
+          led_gre[i][0][3] = 1; led_gre[i][4][3] = 1;
+          led_gre[i][0][3] = 1; led_gre[i][4][3] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][0][3] = 1; led_blu[i][4][3] = 1;
+          led_blu[i][0][3] = 1; led_blu[i][4][3] = 1;
+          led_blu[i][0][3] = 1; led_blu[i][4][3] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 10:
+        if (color % 2) {
+          led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][3][1] = 1;
+          led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][3][1] = 1;
+          led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][3][1] = 1;
+          led_blu[i][3][0] = 1;
+        }
+        break;
+      case 9:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][0][3] = 1; led_red[i][4][3] = 1;
+          led_red[i][0][2] = 1; led_red[i][2][2] = 1; led_red[i][4][2] = 1;
+          led_red[i][0][1] = 1; led_red[i][1][1] = 1; led_red[i][4][1] = 1;
+          led_red[i][0][0] = 1; led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][0][3] = 1; led_gre[i][4][3] = 1;
+          led_gre[i][0][2] = 1; led_gre[i][2][2] = 1; led_gre[i][4][2] = 1;
+          led_gre[i][0][1] = 1; led_gre[i][1][1] = 1; led_gre[i][4][1] = 1;
+          led_gre[i][0][0] = 1; led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][0][3] = 1; led_blu[i][4][3] = 1;
+          led_blu[i][0][2] = 1; led_blu[i][2][2] = 1; led_blu[i][4][2] = 1;
+          led_blu[i][0][1] = 1; led_blu[i][1][1] = 1; led_blu[i][4][1] = 1;
+          led_blu[i][0][0] = 1; led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 8:
+        if (color % 2) {
+          led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1; led_red[i][3][1] = 1;
+          led_red[i][0][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1; led_gre[i][3][1] = 1;
+          led_gre[i][0][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][0][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 7:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][4][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][2][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][0][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][4][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][2][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][0][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][4][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][2][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][0][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 6:
+        if (color % 2) {
+          led_red[i][0][4] = 1; led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1; led_red[i][4][4] = 1;
+          led_red[i][2][3] = 1;
+          led_red[i][2][2] = 1;
+          led_red[i][2][1] = 1;
+          led_red[i][2][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][0][3] = 1; led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1; led_gre[i][4][3] = 1;
+          led_gre[i][2][3] = 1;
+          led_gre[i][2][2] = 1;
+          led_gre[i][2][1] = 1;
+          led_gre[i][2][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][0][3] = 1; led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1; led_blu[i][4][3] = 1;
+          led_blu[i][2][3] = 1;
+          led_blu[i][2][2] = 1;
+          led_blu[i][2][1] = 1;
+          led_blu[i][2][0] = 1;
+        }
+        break;
+      case 5:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][1][2] = 1; led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1; led_red[i][3][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][1][3] = 1;  led_gre[i][3][3] = 1;
+          led_gre[i][1][2] = 1; led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1;  led_gre[i][3][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 4:
+        if (color % 2) {
+          led_red[i][1][4] = 1; led_red[i][3][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][1][2] = 1;  led_red[i][3][2] = 1;
+          led_red[i][1][1] = 1;  led_red[i][3][1] = 1;
+          led_red[i][2][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][1][4] = 1; led_gre[i][3][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][1][2] = 1;  led_gre[i][3][2] = 1;
+          led_gre[i][1][1] = 1; led_gre[i][3][1] = 1;
+          led_gre[i][2][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][1][4] = 1; led_blu[i][3][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][1][2] = 1; led_blu[i][3][2] = 1;
+          led_blu[i][1][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][2][0] = 1;
+        }
+        break;
+      case 3:
+        if (color % 2) {
+          led_red[i][0][4] = 1; led_red[i][2][4] = 1; led_red[i][4][4] = 1;
+          led_red[i][0][3] = 1; led_red[i][2][3] = 1; led_red[i][4][3] = 1;
+          led_red[i][0][2] = 1; led_red[i][2][2] = 1; led_red[i][4][2] = 1;
+          led_red[i][0][1] = 1; led_red[i][2][1] = 1; led_red[i][4][1] = 1;
+          led_red[i][1][0] = 1; led_red[i][3][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][0][4] = 1; led_gre[i][2][4] = 1; led_gre[i][4][4] = 1;
+          led_gre[i][0][3] = 1; led_gre[i][2][3] = 1; led_gre[i][4][3] = 1;
+          led_gre[i][0][2] = 1; led_gre[i][2][2] = 1; led_gre[i][4][2] = 1;
+          led_gre[i][0][1] = 1; led_gre[i][2][1] = 1; led_gre[i][4][1] = 1;
+          led_gre[i][1][0] = 1; led_gre[i][3][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][0][4] = 1; led_blu[i][2][4] = 1; led_blu[i][4][4] = 1;
+          led_blu[i][0][3] = 1; led_blu[i][2][3] = 1; led_blu[i][4][3] = 1;
+          led_blu[i][0][2] = 1; led_blu[i][2][2] = 1; led_blu[i][4][2] = 1;
+          led_blu[i][0][1] = 1; led_blu[i][2][1] = 1; led_blu[i][4][1] = 1;
+          led_blu[i][1][0] = 1; led_blu[i][3][0] = 1;
+        }
+        break;
+      case 2:
+        if (color % 2) {
+          led_red[i][0][4] = 1; led_red[i][4][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][2][2] = 1;
+          led_red[i][1][1] = 1; led_red[i][3][1] = 1;
+          led_red[i][0][0] = 1; led_red[i][4][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][0][4] = 1; led_gre[i][4][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][2][2] = 1;
+          led_gre[i][1][1] = 1; led_gre[i][3][1] = 1;
+          led_gre[i][0][0] = 1; led_gre[i][4][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][0][4] = 1; led_blu[i][4][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][2][2] = 1;
+          led_blu[i][1][1] = 1; led_blu[i][3][1] = 1;
+          led_blu[i][0][0] = 1; led_blu[i][4][0] = 1;
+        }
+        break;
+      case 1:
+        if (color % 2) {
+          led_red[i][0][4] = 1; led_red[i][4][4] = 1;
+          led_red[i][1][3] = 1; led_red[i][3][3] = 1;
+          led_red[i][2][2] = 1;
+          led_red[i][2][1] = 1;
+          led_red[i][2][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][0][4] = 1; led_gre[i][4][4] = 1;
+          led_gre[i][1][3] = 1; led_gre[i][3][3] = 1;
+          led_gre[i][2][2] = 1;
+          led_gre[i][2][1] = 1;
+          led_gre[i][2][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][0][4] = 1; led_blu[i][4][4] = 1;
+          led_blu[i][1][3] = 1; led_blu[i][3][3] = 1;
+          led_blu[i][2][2] = 1;
+          led_blu[i][2][1] = 1;
+          led_blu[i][2][0] = 1;
+        }
+        break;
+      case 0:
+        if (color % 2) {
+          led_red[i][0][4] = 1; led_red[i][1][4] = 1; led_red[i][2][4] = 1; led_red[i][3][4] = 1; led_red[i][4][4] = 1;
+          led_red[i][1][3] = 1;
+          led_red[i][2][2] = 1;
+          led_red[i][3][1] = 1;
+          led_red[i][0][0] = 1; led_red[i][1][0] = 1; led_red[i][2][0] = 1; led_red[i][3][0] = 1; led_red[i][4][0] = 1;
+        }
+        if ((color / 2) % 2) {
+          led_gre[i][0][4] = 1; led_gre[i][1][4] = 1; led_gre[i][2][4] = 1; led_gre[i][3][4] = 1; led_gre[i][4][4] = 1;
+          led_gre[i][1][3] = 1;
+          led_gre[i][2][2] = 1;
+          led_gre[i][3][1] = 1;
+          led_gre[i][0][0] = 1; led_gre[i][1][0] = 1; led_gre[i][2][0] = 1; led_gre[i][3][0] = 1; led_gre[i][4][0] = 1;
+        }
+        if ((color / 4) % 2) {
+          led_blu[i][0][4] = 1; led_blu[i][1][4] = 1; led_blu[i][2][4] = 1; led_blu[i][3][4] = 1; led_blu[i][4][4] = 1;
+          led_blu[i][1][3] = 1;
+          led_blu[i][2][2] = 1;
+          led_blu[i][3][1] = 1;
+          led_blu[i][0][0] = 1; led_blu[i][1][0] = 1; led_blu[i][2][0] = 1; led_blu[i][3][0] = 1; led_blu[i][4][0] = 1;
+        }
+        break;
     }
-    for (j = 4; j > 0; j--) {
-      led_clear();
-      if (color % 2) {
-        led_red[i][j][k] = 1;
+    delay(100);
+    //delay(100);
+  }
+  //delay(100);
+}
+
+void EneLED::led_boxes(int w) {
+  led_clear();
+  switch (w) {
+    case 0:
+      for (int p = 5; p > 0; p--) {
+        if (color % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 0; k < p; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 0; k < p; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 0; k < p; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
       }
-      if ((color / 2) % 2) {
-        led_gre[i][j][k] = 1;
+      for (int p = 0; p < 5; p++) {
+        if (color % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 0; k < p; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 0; k < p; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 0; k < p; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
       }
-      if ((color / 4) % 2) {
-        led_blu[i][j][k] = 1;
+      break;
+    case 1:
+      for (int p = 5; p > 0; p--) {
+        if (color % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 0; k < p; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 0; k < p; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 0; k < p; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
       }
-      delay(50);
-    }
+      for (int p = 0; p < 5; p++) {
+        if (color % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 0; k < p; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 0; k < p; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 0; k < p; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
+      }
+      break;
+    case 2:
+      for (int p = 5; p > 0; p--) {
+        if (color % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 0; k < p; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 0; k < p; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 0; k < p; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
+      }
+      for (int p = 0; p < 5; p++) {
+        if (color % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 0; k < p; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 0; k < p; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 0; k < p; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
+      }
+      break;
+    case 3:
+      for (int p = 5; p > 0; p--) {
+        if (color % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 0; k < p; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 0; k < p; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 0; k < p; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
+      }
+      for (int p = 0; p < 5; p++) {
+        if (color % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 0; k < p; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 0; k < p; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 0; k < p; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
+      }
+      break;
+    case 4:
+      for (int p = 5; p > 0; p--) {
+        if (color % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
+      }
+      for (int p = 0; p < 5; p++) {
+        if (color % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
+      }
+      break;
+    case 5:
+      for (int p = 5; p > 0; p--) {
+        if (color % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
+      }
+      for (int p = 0; p < 5; p++) {
+        if (color % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 0; i < p; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
+      }
+      break;
+    case 6:
+      for (int p = 5; p > 0; p--) {
+        if (color % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
+      }
+      for (int p = 0; p < 5; p++) {
+        if (color % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 5 - p; j < 5; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
+      }
+      break;
+    case 7:
+      for (int p = 5; p > 0; p--) {
+        if (color % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
+      }
+      for (int p = 0; p < 5; p++) {
+        if (color % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_red[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 2) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_blu[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        if ((color / 4) % 2) {
+          for (int i = 5 - p; i < 5; i++) {
+            for (int j = 0; j < p; j++) {
+              for (int k = 5 - p; k < 5; k++) {
+                led_gre[i][j][k] = 1;
+              }
+            }
+          }
+        }
+        delay(100);
+        led_clear();
+      }
+      break;
   }
 }
 
-void EneLED::output() {
+void EneLED::led_jiwajiwa(int w) {
+  switch (w % 2) {
+    case 0:
+      for (int u = 0; u < 123; u++) {
+        int o = 0;
+        while (o == 0) {
+          int i = random(5);
+          int j = random(5);
+          int k = random(5);
+          if (led_red[i][j][k] == 0) {
+            led_red[i][j][k] = 1;
+            o = 1;
+          }
+        }
+        o = 0;
+        while (o == 0) {
+          int i1 = random(5);
+          int j1 = random(5);
+          int k1 = random(5);
+          if (led_blu[i1][j1][k1] == 0) {
+            led_blu[i1][j1][k1] = 1;
+            o = 1;
+          }
+        }
+        o = 0;
+        while (o == 0) {
+          int i2 = random(5);
+          int j2 = random(5);
+          int k2 = random(5);
+          if (led_gre[i2][j2][k2] == 0) {
+            led_gre[i2][j2][k2] = 1;
+            o = 1;
+          }
+        }
+        o = 0;
+        delay(10);
+      }
+      delay(200);
+      break;
+    case 1:
+      for (int u = 0; u < 123; u++) {
+        int o = 0;
+        while (o == 0) {
+          int i = random(5);
+          int j = random(5);
+          int k = random(5);
+          if (led_red[i][j][k] == 1) {
+            led_red[i][j][k] = 0;
+            o = 1;
+          }
+        }
+        o = 0;
+        while (o == 0) {
+          int i1 = random(5);
+          int j1 = random(5);
+          int k1 = random(5);
+          if (led_blu[i1][j1][k1] == 1) {
+            led_blu[i1][j1][k1] = 0;
+            o = 1;
+          }
+        }
+        o = 0;
+        while (o == 0) {
+          int i2 = random(5);
+          int j2 = random(5);
+          int k2 = random(5);
+          if (led_gre[i2][j2][k2] == 1) {
+            led_gre[i2][j2][k2] = 0;
+            o = 1;
+          }
+        }
+        o = 0;
+        delay(10);
+      }
+      delay(200);
+      break;
+  }
+}
+
+
+void EneLED::output() {////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   pattern_count++;
   if (pattern_count > 10)pattern_count = 0;
   led_swap(pattern_count % 5);
@@ -322,12 +1838,12 @@ void EneLED::output() {
           SPI.transfer(0x00);
           digitalWrite(6,  LOW);
           digitalWrite(6,  HIGH);
-          SPI.transfer(0x20);
+          SPI.transfer(0x04);
           digitalWrite(6,  LOW);
           digitalWrite(6,  HIGH);
           break;
         case 3:
-          SPI.transfer(0x48);
+          SPI.transfer(0x08);
           digitalWrite(6,  LOW);
           digitalWrite(6,  HIGH);
           SPI.transfer(0x80);
@@ -355,7 +1871,7 @@ void EneLED::output() {
           digitalWrite(6,  HIGH);
           break;
         case 3:
-          SPI.transfer(0xA0);
+          SPI.transfer(0xa0);
           digitalWrite(6,  LOW);
           digitalWrite(6,  HIGH);
           SPI.transfer(0x40);
