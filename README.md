@@ -10,6 +10,8 @@ EneLED2クラスのリファレンス
 **最新版**  
 - [リモコンデータ](https://github.com/yoshiko-kulala/led_ene/blob/master/remocon_sig.md)  
 リモコンの信号を読んだ時のメモ  
+- [ESPで遠隔化メモ](https://github.com/yoshiko-kulala/led_ene/blob/release/remote_memo.md)  
+キューブとボタンの間を無線化しようずメモ  
 
 ## cube
 LEDcubeを動かす前に配列から信号を出す練習(使い道なし)  

@@ -25,11 +25,11 @@ void loop() {
     rx = int(SerialBT.read()-48);
     Serial.println(rx);
   }
-  if(rx%2)digitalWrite(12,HIGH);
-  else digitalWrite(12,LOW);
-  if((rx/2)%2)digitalWrite(14,HIGH);
-  else digitalWrite(14,LOW);
-  if((rx/4)%2)digitalWrite(27,HIGH);
-  else digitalWrite(27,LOW);
+  if(rx%2)digitalWrite(12,LOW);
+  else digitalWrite(12,HIGH);
+  if((rx/2)%2)digitalWrite(14,LOW);
+  else digitalWrite(14,HIGH);
+  if((rx/4)%2)digitalWrite(27,LOW);
+  else digitalWrite(27,HIGH);
   delay(20);
 }
